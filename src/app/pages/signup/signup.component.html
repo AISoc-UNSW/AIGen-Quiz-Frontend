@@ -6,10 +6,8 @@
   <div class="signup-container">
     <img class="logo" src="/assets/AISOC_Logo.png"/>
     <h2>AI or Real</h2>
-    <form (ngSubmit)="signUp()">
+    <form (ngSubmit)="startQuiz()">
       <input type="text" [(ngModel)]="name" name="name" required placeholder="Name"/>
-
-      <input type="email" [(ngModel)]="email" name="email" placeholder="Email (Optional)"/>
 
       <button type="submit" [disabled]="!name"
               (touchstart)="button_pressed($event)"

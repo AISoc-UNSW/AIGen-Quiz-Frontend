@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,13 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent implements OnInit{
-  // url: string = "http://localhost:8089/api/users"; Local host url
-  url: string = "https://aigen-quiz-backend.onrender.com/api/users";
-
   name: string = '';
-  email: string = '';
-
-  signingIn: boolean = false;
 
   // Background image player
   images: string[] = [
@@ -31,7 +24,7 @@ export class SignupComponent implements OnInit{
   activeBg: boolean = true; // Toggle between two divs
   private bgInterval: any; // Store interval reference
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.setInitialBackground();
@@ -74,31 +67,8 @@ export class SignupComponent implements OnInit{
     }, 10000);
   }
 
-  // Save the user details to the database
-  signUp() 
-  {
-    if (this.signingIn) { return; } // Prevents accidently sending multiple signup requests
-
-    this.signingIn = true;  // Indicate signing in
-
-    let bodyData = {
-      "name" : this.name,
-      "email" : this.email,
-    };
-
-    console.log("HEre");
-
-    this.http.post(this.url + "/signup", bodyData, {responseType: 'text'}).subscribe((resultData: any) => 
-    {
-      console.log(resultData);
-      this.router.navigate(['/menu']);
-      
-    },
-    (error) => {
-      console.error("Error Signing up User: ", error)
-      alert("Error Signing up ");
-      this.signingIn = false;
-    });
+  startQuiz() {
+    this.router.navigate(['/menu']);
   }
 
   button_pressed(event: Event) {

@@ -66,6 +66,31 @@ export class MenuComponent implements AfterViewInit {
     }, this.timeRunning);
   }
 
+  /** Navigate the carousel directly to the quiz at the given index (0=Images, 1=Videos, 2=Music, 3=Text). */
+  goToSlide(index: number) {
+    const carouselDom = this.carousel.nativeElement as HTMLElement;
+    const sliderDom = this.slider.nativeElement as HTMLElement;
+    const thumbnailBorderDom = this.thumbnail.nativeElement as HTMLElement;
+    const sliderItems: HTMLElement[] = Array.from(sliderDom.querySelectorAll('.item'));
+    const thumbnailItems: HTMLElement[] = Array.from(thumbnailBorderDom.querySelectorAll('.item'));
+
+    const getByIndex = (items: HTMLElement[], i: number): HTMLElement | undefined =>
+      items.find((el: HTMLElement) => el.getAttribute('data-index') === String(i));
+
+    const sliderOrder = [index, (index + 1) % 4, (index + 2) % 4, (index + 3) % 4];
+    const thumbOrder = [(index + 1) % 4, (index + 2) % 4, (index + 3) % 4, index];
+
+    sliderOrder.forEach(i => sliderDom.appendChild(getByIndex(sliderItems, i)!));
+    thumbOrder.forEach(i => thumbnailBorderDom.appendChild(getByIndex(thumbnailItems, i)!));
+
+    // Trigger the same zoom-in and loading bar as the arrow "next"
+    clearTimeout(this.runTimeOut);
+    carouselDom.classList.add('next');
+    this.runTimeOut = setTimeout(() => {
+      carouselDom.classList.remove('next');
+    }, this.timeRunning);
+  }
+
   quit(){
     this.router.navigate(['']);
   }

@@ -8,7 +8,7 @@
     <!-- Categories -->
      <div class="category" #slider>
         <!-- Image Category -->
-         <div class="item">
+         <div class="item" data-index="0">
             <img src="assets/Menu/Menu_Images.jpg"/>
             <div class="content">
                 <div class="title">AI QUIZ</div>
@@ -31,7 +31,7 @@
          </div>
 
         <!-- Video Category -->
-         <div class="item">
+         <div class="item" data-index="1">
             <img src="assets/Menu/Menu_Videos.jpg"/>
             <div class="content">
                 <div class="title">AI QUIZ</div>
@@ -54,7 +54,7 @@
          </div>
 
         <!-- Music Category -->
-         <div class="item">
+         <div class="item" data-index="2">
             <img src="assets/Menu/Menu_Music.jpg"/>
             <div class="content">
                 <div class="title">AI QUIZ</div>
@@ -77,7 +77,7 @@
          </div>
 
         <!-- Text Category -->
-         <div class="item">
+         <div class="item" data-index="3">
             <img src="assets/Menu/Menu_Text.jpg"/>
             <div class="content">
                 <div class="title">AI QUIZ</div>
@@ -103,7 +103,7 @@
     <!-- Thumbnail -->
      <div class="thumbnail" #thumbnail>
         <!-- Image Thumbnail -->
-        <div class="item">
+        <div class="item" data-index="0" (click)="goToSlide(0)" role="button" tabindex="0">
             <img src="assets/Menu/Menu_Images.jpg"/>
             <div class="content">
                 <div class="title"> Image Quiz </div>
@@ -112,7 +112,7 @@
         </div>
 
         <!-- Video Thumbnail -->
-        <div class="item">
+        <div class="item" data-index="1" (click)="goToSlide(1)" role="button" tabindex="0">
             <img src="assets/Menu/Menu_Videos.jpg"/>
             <div class="content">
                 <div class="title"> Video Quiz </div>
@@ -121,7 +121,7 @@
         </div>
 
         <!-- Music Thumbnail -->
-        <div class="item">
+        <div class="item" data-index="2" (click)="goToSlide(2)" role="button" tabindex="0">
             <img src="assets/Menu/Menu_Music.jpg"/>
             <div class="content">
                 <div class="title"> Music Quiz </div>
@@ -130,7 +130,7 @@
         </div>
 
         <!-- Text Thumbnail -->
-        <div class="item">
+        <div class="item" data-index="3" (click)="goToSlide(3)" role="button" tabindex="0">
             <img src="assets/Menu/Menu_Text.jpg"/>
             <div class="content">
                 <div class="title"> Text Quiz </div>
