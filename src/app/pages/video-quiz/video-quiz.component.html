@@ -15,18 +15,25 @@
   
     
         <div class="video-grid">
-            <video *ngIf="currentVideo" width="600" height="400"  [src]="currentVideo.path" autoplay loop>
-                Your browser does not support the video tag.
-            </video>
+            <div class="video-clip-wrapper">
+                <video *ngIf="currentVideo" [src]="currentVideo.path" autoplay loop>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
-        
+
+        <p *ngIf="showCorrectAnswer" class="correct-answer-text">Correct answer: {{ correctAnswerLabel }}</p>
         
         <div class="button-grid">
             <button class="button-real" 
+                    [class.highlight-correct]="showCorrectAnswer && correctAnswerLabel === 'Real'"
+                    [disabled]="disableInput"
                     (click)="checkAnswer(false)"
                     (touchstart)="button_pressed($event)"
                     (touchend)="button_released($event)">Real</button>
             <button class="button-ai" 
+                    [class.highlight-correct]="showCorrectAnswer && correctAnswerLabel === 'AI'"
+                    [disabled]="disableInput"
                     (click)="checkAnswer(true)"
                     (touchstart)="button_pressed($event)"
                     (touchend)="button_released($event)">AI</button>

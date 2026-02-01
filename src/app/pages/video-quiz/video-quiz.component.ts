@@ -14,6 +14,9 @@ import { takeUntil } from 'rxjs';
 export class VideoQuizComponent implements OnInit, OnDestroy {
   currentVideo: QuizVideo | null = null;
   quizOver: boolean = false;
+  disableInput: boolean = false;
+  showCorrectAnswer: boolean = false;
+  correctAnswerLabel: string = '';
 
   score: number = 0;
   totalquestions: number = 0;
@@ -48,8 +51,9 @@ export class VideoQuizComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$)) // Auto-stop when component is destroyed
       .subscribe(() =>{
         if(this.timer > 0){
-          this.timer -= 0.33;
+          this.timer -= 0.5;
         } else {
+          this.destroy$.next(); // Stop current interval before starting a new one
           alert("Oops! You ran out of Time.");
           this.loadQuestion();
         }
@@ -57,42 +61,42 @@ export class VideoQuizComponent implements OnInit, OnDestroy {
   }
 
   loadQuestion() {
-    console.log("Next question loading...");
-    
+    this.showCorrectAnswer = false;
+    this.disableInput = false;
     this.currentVideo = this.quizService.getNextQuestion();
-    console.log(this.currentVideo);
 
-    // No more questions left
     if (!this.currentVideo) {
-      this.quizOver = true; // End the quiz
+      this.quizOver = true;
     } else {
       this.startTimer();
 
-      // Wait for Angular to update the DOM, then reload the video
       setTimeout(() => {
         const videoElement = document.querySelector('video');
         if (videoElement) {
-            videoElement.load(); // Ensures the new video loads and plays
-            videoElement.play().catch(err => console.log("Autoplay prevented:", err));
+          videoElement.load();
+          videoElement.play().catch(err => console.log("Autoplay prevented:", err));
         }
       }, 100);
     }
 
-    this.cdr.detectChanges(); // Manually trigger change detection
+    this.cdr.detectChanges();
   }
 
   checkAnswer(isAI: boolean) {
-    if (this.currentVideo) {
-      if (this.currentVideo.isAI === isAI) {
-        alert('Correct! Loading next video...');
-        this.score += 1;
-      } else {
-          alert('Wrong! Try the next one.');
-      }
-      this.destroy$.next(); // Remove old timer
-      setTimeout(() => {
-        this.loadQuestion(); // Load next video
-      }, 500);
+    if (this.disableInput || !this.currentVideo) return;
+
+    if (this.currentVideo.isAI === isAI) {
+      alert('Correct! Loading next video...');
+      this.score += 1;
+      this.destroy$.next();
+      setTimeout(() => this.loadQuestion(), 500);
+    } else {
+      alert('Wrong! The correct answer is shown below.');
+      this.correctAnswerLabel = this.currentVideo.isAI ? 'AI' : 'Real';
+      this.showCorrectAnswer = true;
+      this.disableInput = true;
+      this.destroy$.next();
+      setTimeout(() => this.loadQuestion(), 2000);
     }
   }
 
