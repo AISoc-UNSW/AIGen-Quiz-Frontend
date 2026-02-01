@@ -5,15 +5,12 @@ import { MenuComponent } from './pages/menu/menu.component';
 import { ImageQuizComponent } from './pages/image-quiz/image-quiz.component';
 import { VideoQuizComponent } from './pages/video-quiz/video-quiz.component';
 import { SongQuizComponent } from './pages/song-quiz/song-quiz.component';
-import { TextQuizComponent } from './pages/text-quiz/text-quiz.component';
-
 const routes: Routes = [
   { path: '', component: SignupComponent },
   { path: 'menu', component: MenuComponent},
   { path: 'quiz/images', component: ImageQuizComponent},
   { path: 'quiz/videos', component: VideoQuizComponent},
-  { path: 'quiz/songs', component: SongQuizComponent},
-  { path: 'quiz/texts', component: TextQuizComponent}
+  { path: 'quiz/songs', component: SongQuizComponent}
 ];
 
 @NgModule({

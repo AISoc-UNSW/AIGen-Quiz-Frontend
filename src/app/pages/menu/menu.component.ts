@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImageQuizService } from '../../service/image-quiz.service';
 
 @Component({
   selector: 'app-menu',
@@ -19,8 +20,9 @@ export class MenuComponent implements AfterViewInit {
   timeRunning = 3000;
   runTimeOut: any;
   runNextAuto: any;
+  showImageCategoryModal: boolean = false;
 
-  constructor(private renderer: Renderer2, private router: Router) {}
+  constructor(private renderer: Renderer2, private router: Router, private imageQuizService: ImageQuizService) {}
 
   ngAfterViewInit() {
     const nextDom = this.nextButton.nativeElement;
@@ -96,8 +98,19 @@ export class MenuComponent implements AfterViewInit {
   }
 
   startImageQuiz() {
-    console.log("Image Quiz Selected");
+    console.log("Image Quiz Selected - Show Category Modal");
+    this.showImageCategoryModal = true;
+  }
+
+  selectImageCategory(category: 'abstract-art' | 'handwriting') {
+    console.log("Selected category:", category);
+    this.imageQuizService.setCategory(category);
+    this.showImageCategoryModal = false;
     this.router.navigate(['/quiz/images']);
+  }
+
+  cancelImageQuiz() {
+    this.showImageCategoryModal = false;
   }
 
   startVideoQuiz() {
@@ -108,11 +121,6 @@ export class MenuComponent implements AfterViewInit {
   startSongQuiz() {
     console.log("Video Song Selected");
     this.router.navigate(['/quiz/songs']);
-  }
-
-  startTextQuiz() {
-    console.log("Video Song Selected");
-    this.router.navigate(['/quiz/texts']);
   }
 
   button_pressed(event: Event) {
